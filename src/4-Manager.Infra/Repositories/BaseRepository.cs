@@ -13,6 +13,7 @@ namespace Manager.Infra.Repositories
     {
       _context.Add(obj);
       await _context.SaveChangesAsync();
+
       return obj;
     }
 
@@ -24,13 +25,26 @@ namespace Manager.Infra.Repositories
       return obj;
     }
 
-    public virtual async Task<T> Remove(long id) {
+    public virtual async Task<T> Remove(long id)
+    {
       var obj = await Get(id);
 
-      if (obj != null) {
+      if (obj != null)
+      {
         _context.Remove(obj);
         await _context.SaveChangesAsync();
       }
+    }
+
+    public virtual async Task<T> Get(long id)
+    {
+      var obj = await _context
+        .Set<T>()
+        .AsNoTracking()
+        .Where(x => x.Id == id)
+        .ToListAsync();
+
+      return obj.FirstOrDefault();
     }
   }
 }
