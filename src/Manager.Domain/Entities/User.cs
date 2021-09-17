@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using Manager.Domain.Validators;
+
 namespace Manager.Domain.Entities
 {
   public class User : Base
@@ -6,39 +10,45 @@ namespace Manager.Domain.Entities
     public string Email { get; private set; }
     public string Password { get; private set; }
 
-    //EF
     protected User() { }
 
     public User(string name, string email, string password)
     {
-      Name = name;
-      Email = email;
-      Password = password;
-      _errors = new List<string>();
-      Validate();
+      this.Name = name;
+      this.Email = email;
+      this.Password = password;
+      this._errors = new List<string>();
+      this.Validate();
     }
 
     public void ChangeName(string name)
     {
-      Name = name;
-      Validate();
+      this.Name = name;
+      this.Validate();
     }
 
     public void ChangePassword(string password)
     {
-      Password = password;
-      Validate();
+      this.Password = password;
+      this.Validate();
     }
 
     public void ChangeEmail(string email)
     {
-      Email = email;
-      Validate();
+      this.Email = email;
+      this.Validate();
     }
 
     public override bool Validate()
     {
-      throw new System.NotImplementedException();
+      var validation = (new UserValidator()).Validate(this);
+
+      if (validation.IsValid) return true;
+
+      foreach (var error in validation.Errors)
+        this._errors.Add(error.ErrorMessage);
+
+      throw new Exception("some fields are invalid" + this._errors);
     }
   }
 }
