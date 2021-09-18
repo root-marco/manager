@@ -1,3 +1,10 @@
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Manager.Domain.Entities;
+using Manager.Infra.Interfaces;
+using Manager.Infra.Context;
+
 namespace Manager.Infra.Repositories
 {
   public class BaseRepository<T> : IBaseRepository<T> where T : Base
@@ -45,6 +52,14 @@ namespace Manager.Infra.Repositories
         .ToListAsync();
 
       return obj.FirstOrDefault();
+    }
+
+    public virtual async Task<List<T>> Get()
+    {
+      return await _context
+        .Set<T>()
+        .AsNoTracking()
+        .ToListAsync();
     }
   }
 }
