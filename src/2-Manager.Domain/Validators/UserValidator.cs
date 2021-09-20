@@ -19,17 +19,17 @@ namespace Manager.Domain.Validators
 
       RuleFor(user => user.Password)
         .NotEmpty().WithMessage("password cannot be empty.")
-        .NotNull().WithMessage("passoword cannot be null.")
-        .MinimumLength(6).WithMessage("minimum characters for PASSSWORD: 6")
-        .MaximumLength(80).WithMessage("maximum characters for PASSSWORD: 80");
+        .NotNull().WithMessage("password cannot be null.")
+        .MinimumLength(6).WithMessage("minimum characters for PASSWORD: 6")
+        .MaximumLength(80).WithMessage("maximum characters for PASSWORD: 80");
 
       RuleFor(user => user.Email)
-        .NotEmpty().WithMessage("name cannot be empty.")
+        .NotEmpty().WithMessage("email cannot be empty.")
         .NotNull().WithMessage("email cannot be null.")
         .MinimumLength(10).WithMessage("minimum characters for EMAIL: 10")
-        .MaximumLength(180).WithMessage("maximum characters for EMAIL: 180")
+        .MaximumLength(180).WithMessage("minimum characters for EMAIL: 10")
         .Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$")
-        .WithMessage("email invalid");
+        .WithMessage("invalid email.");
     }
   }
 }
