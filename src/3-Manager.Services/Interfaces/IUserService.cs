@@ -9,6 +9,7 @@ namespace Manager.Services.Interfaces
     Task<UserDto> Create(UserDto userDto);
     Task<UserDto> Update(UserDto userDto);
     Task Remove(long id);
+    Task<UserDto> Get(long id);
     Task<List<UserDto>> Get();
     Task<List<UserDto>> SearchByName(string name);
     Task<List<UserDto>> SearchByEmail(string email);
