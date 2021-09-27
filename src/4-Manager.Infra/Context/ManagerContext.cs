@@ -14,11 +14,6 @@ namespace Manager.Infra.Context
     {
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-      const string uri = @"Server=localhost;Database=USER_MANAGER;User Id=SA;Password=xmm$tzb$J61;";
-      optionsBuilder.UseSqlServer(uri);
-    }
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
