@@ -21,7 +21,7 @@ namespace Manager.Infra.Repositories
     public async Task<User> GetByEmail(string email)
     {
       var user = await _context.Users
-        .Where(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase))
+        .Where(x => x.Email.ToLower() == email.ToLower())
         .AsNoTracking()
         .ToListAsync();
 
