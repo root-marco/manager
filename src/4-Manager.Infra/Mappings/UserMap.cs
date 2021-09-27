@@ -14,6 +14,7 @@ namespace Manager.Infra.Mappings
 
       builder.Property(x => x.Id)
         .UseIdentityColumn()
+        .HasColumnName("Id")
         .HasColumnType("BIGINT");
 
       builder.Property(x => x.Name)
@@ -24,9 +25,9 @@ namespace Manager.Infra.Mappings
 
       builder.Property(x => x.Password)
         .IsRequired()
-        .HasMaxLength(50)
+        .HasMaxLength(1000)
         .HasColumnName("password")
-        .HasColumnType("VARCHAR(50)");
+        .HasColumnType("VARCHAR(1000)");
 
       builder.Property(x => x.Email)
         .IsRequired()
