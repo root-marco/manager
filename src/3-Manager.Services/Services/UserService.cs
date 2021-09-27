@@ -23,13 +23,13 @@ namespace Manager.Services.Services
     public async Task<UserDto> Create(UserDto userDto)
     {
       var existingUser = await _userRepository.GetByEmail(userDto.Email);
-
+      
       if (existingUser != null)
         throw new DomainException("email already exists.");
 
       var user = _mapper.Map<User>(userDto);
       user.Validate();
-
+      
       var createdUser = await _userRepository.Create(user);
 
       return _mapper.Map<UserDto>(createdUser);
