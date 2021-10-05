@@ -2,11 +2,10 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Manager.API.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Manager.API.Token
+namespace Manager.API.Tokens
 {
   public class TokenGenerator : ITokenGenerator
   {
@@ -30,11 +29,9 @@ namespace Manager.API.Token
           new Claim(ClaimTypes.Name, _configuration["Jwt:Login"]),
           new Claim(ClaimTypes.Role, "User")
         }),
-
         Expires = DateTime.UtcNow.AddHours(int.Parse(_configuration["Jwt:HoursToExpire"])),
 
-        SigningCredentials =
-          new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
       };
 
       var token = tokenHandler.CreateToken(tokenDescriptor);
