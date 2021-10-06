@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using AutoMapper;
+using EscNet.DependencyInjection.IoC.Cryptography;
 using Manager.API.Tokens;
 using Manager.API.ViewModels;
 using Manager.Domain.Entities;
@@ -34,7 +35,7 @@ namespace Manager.API
     {
       services.AddControllers();
 
-      #region AutoMapper
+      # region AutoMapper
 
       var autoMapperConfig = new MapperConfiguration(cfg =>
       {
@@ -45,9 +46,9 @@ namespace Manager.API
 
       services.AddSingleton(autoMapperConfig.CreateMapper());
 
-      #endregion
+      # endregion
 
-      #region Dependencies Injection
+      # region DEPENDENCIES
 
       services.AddSingleton(d => Configuration);
       services.AddScoped<IUserService, UserService>();
@@ -61,9 +62,9 @@ namespace Manager.API
         options.UseSqlServer(connectionString);
       });
 
-      #endregion
+      # endregion
 
-      #region JWT
+      # region JWT
 
       var secretKey = Configuration["Jwt:Key"];
 
@@ -85,7 +86,7 @@ namespace Manager.API
         };
       });
 
-      #endregion
+      # endregion
 
       # region SWAGGER
 
@@ -127,6 +128,13 @@ namespace Manager.API
       });
 
       # endregion
+
+      # region CRYPTOGRAPHY
+
+      services.AddRijndaelCryptography(Configuration["Cryptography"]);
+
+      # endregion
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
