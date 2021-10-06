@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using EscNet.Cryptography.Interfaces;
 using Manager.Core.Exceptions;
 using Manager.Domain.Entities;
 using Manager.Infra.Interfaces;
@@ -13,23 +14,29 @@ namespace Manager.Services.Services
   {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
+    private readonly IRijndaelCryptography _rijndaelCryptography;
 
-    public UserService(IMapper mapper, IUserRepository userRepository)
+    public UserService(
+        IMapper mapper,
+        IUserRepository userRepository,
+        IRijndaelCryptography rijndaelCryptography)
     {
       _mapper = mapper;
       _userRepository = userRepository;
+      _rijndaelCryptography = rijndaelCryptography;
     }
 
     public async Task<UserDto> Create(UserDto userDto)
     {
       var existingUser = await _userRepository.GetByEmail(userDto.Email);
-      
+
       if (existingUser != null)
         throw new DomainException("email already exists.");
 
       var user = _mapper.Map<User>(userDto);
       user.Validate();
-      
+      user.ChangePassword(_rijndaelCryptography.Encrypt(user.Password));
+
       var createdUser = await _userRepository.Create(user);
 
       return _mapper.Map<UserDto>(createdUser);
@@ -44,6 +51,7 @@ namespace Manager.Services.Services
 
       var user = _mapper.Map<User>(userDto);
       user.Validate();
+      user.ChangePassword(_rijndaelCryptography.Encrypt(user.Password));
 
       var updatedUser = await _userRepository.Update(user);
 
