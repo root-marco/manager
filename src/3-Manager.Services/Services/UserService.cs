@@ -17,9 +17,9 @@ namespace Manager.Services.Services
     private readonly IRijndaelCryptography _rijndaelCryptography;
 
     public UserService(
-        IMapper mapper,
-        IUserRepository userRepository,
-        IRijndaelCryptography rijndaelCryptography)
+      IMapper mapper,
+      IUserRepository userRepository,
+      IRijndaelCryptography rijndaelCryptography)
     {
       _mapper = mapper;
       _userRepository = userRepository;
